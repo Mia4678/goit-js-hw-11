@@ -1,20 +1,21 @@
 import axios from 'axios';
 
-export class PixabayAPI {
-    #BASE_URL = 'https://pixabay.com/api/';
-    #API_KEY = '38757222-aac38a2f2dda445319a4579ec';
-    q = null;
-    page = 1;
-    async fetchPhotos() {
-      const searchParams = new URLSearchParams({
-        key: this.#API_KEY,
-        image_type: 'photo',
-        orientation: 'horizontal',
-        safesearch: true,
-        per_page: 40,
-        q: this.q,
-        page: this.page,
-      });
-      return await axios.get(`${this.#BASE_URL}?${searchParams}`);
-    }
-  }
+    const PIXABAY_API_KEY = '38752753-3e559f3e5f741918923bcfb47';
+    const BASE_URL = 'https://pixabay.com/api/';
+    const ITEMS_PER_PAGE = 40;
+
+    export async function searchImages(query, page) {
+    const response = await axios.get(BASE_URL, {
+        params: {
+      key: PIXABAY_API_KEY,
+      q: query,
+      image_type: 'photo',
+      orientation: 'horizontal',
+      safesearch: true,
+      per_page: ITEMS_PER_PAGE,
+      page: page,
+    },
+  });
+
+  return response.data.hits;
+}

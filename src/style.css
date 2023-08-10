@@ -1,0 +1,40 @@
+body {
+    background-color: #eeb4ee;
+}
+
+.gallery {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.js-form {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+input {
+    border-radius: 15%;
+    width: 25%;
+    appearance: none;
+    border: 5px;
+    outline: none;
+    padding-left: 15px;
+    color: #313030;
+    background: linear-gradient(to right, #ee39ee, #951169);
+}
+
+button {
+    border-color: #df62df;
+    background-color: #df62df;
+}
+
+.load-more {
+
+    margin: auto;
+    width: 125px;
+    height: 50px;
+
+}
