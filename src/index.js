@@ -41,6 +41,8 @@ elements.loadMoreButton.addEventListener('click', async () => {
   }
 });
 
+let totalHits = 0;
+
 function displayImages(images) {
   if (images.length === 0) {
     hideLoadMoreButton();
@@ -50,9 +52,15 @@ function displayImages(images) {
     );
     return;
   }
+  totalHits = images[0].totalHits;
 
   const imageGallery = new ImageGallery(images, elements.gallery);
   imageGallery.render();
+
+  if (currentPage === 1) {
+    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+  }
+
 }
 
 class ImageGallery {
