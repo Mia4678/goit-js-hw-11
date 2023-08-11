@@ -17,7 +17,9 @@ elements.form.addEventListener('submit', async e => {
   currentPage = 1;
   currentSearchQuery = e.target.searchQuery.value.trim();
 
-  if (currentSearchQuery === '') {
+  if (!currentSearchQuery ) {
+    hideLoadMoreButton(false);
+    hideImageGallery();
     return;
   }
 
@@ -31,35 +33,33 @@ elements.form.addEventListener('submit', async e => {
   }
 });
 
+
 elements.loadMoreButton.addEventListener('click', async () => {
   try {
     currentPage++;
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
   } catch (error) {
+    hideLoadMoreButton();
     console.error('Error fetching more images:', error);
+
   }
 });
 
-let totalHits = 0;
+
 
 function displayImages(images) {
   if (images.length === 0) {
     hideLoadMoreButton();
-    lightbox.refresh();
+    hideImageGallery();
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
-  totalHits = images[0].totalHits;
 
   const imageGallery = new ImageGallery(images, elements.gallery);
-  imageGallery.render();
-
-  if (currentPage === 1) {
-    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
-  }
+  imageGallery.append();
 
 }
 
@@ -74,6 +74,13 @@ class ImageGallery {
       .map(image => this.createImageCard(image))
       .join('');
     this.galleryElement.innerHTML = imageCards;
+  }
+
+  append() {
+    const imageCards = this.images
+      .map(image => this.createImageCard(image))
+      .join('');
+    this.galleryElement.innerHTML += imageCards; // Append new images to the existing gallery content
   }
 
   createImageCard(image) {
@@ -113,5 +120,10 @@ function showLoadMoreButton() {
 }
 
 function hideLoadMoreButton() {
-  elements.loadMoreButton.style.display = 'none';
+    elements.loadMoreButton.style.display = 'none'; // Приховати кнопку
 }
+
+function hideImageGallery () {
+  elements.gallery.style.display = 'none';
+}
+
