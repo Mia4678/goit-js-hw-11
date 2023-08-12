@@ -50,16 +50,18 @@ elements.loadMoreButton.addEventListener('click', async () => {
 
 function displayImages(images) {
   if (images.length === 0) {
+    const imageGallery = new ImageGallery(images, elements.gallery);
+    imageGallery.render();
     hideImageGallery();
     hideLoadMoreButton();
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
-  } 
-  const imageGallery = new ImageGallery(images, elements.gallery);
-  imageGallery.append();
-
+  } else {
+    const imageGallery = new ImageGallery(images, elements.gallery);
+    imageGallery.append();
+  }
 }
 
 class ImageGallery {
