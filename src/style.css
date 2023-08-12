@@ -57,6 +57,6 @@ button {
     top: 0;
     background-color: #f577f5;
   }
-  .isHidden{
+  .hidden {
     display: none;
-  }
+}

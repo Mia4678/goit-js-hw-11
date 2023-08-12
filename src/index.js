@@ -17,8 +17,7 @@ elements.form.addEventListener('submit', async e => {
   currentPage = 1;
   currentSearchQuery = e.target.searchQuery.value.trim();
 
-  if (!currentSearchQuery ) {
-    hideLoadMoreButton(false);
+  if (!currentSearchQuery) {
     hideImageGallery();
     return;
   }
@@ -26,8 +25,8 @@ elements.form.addEventListener('submit', async e => {
   try {
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
-    showLoadMoreButton();
     lightbox.refresh();
+    showLoadMoreButton();
   } catch (error) {
     console.error('Error fetching images:', error);
   }
@@ -39,8 +38,8 @@ elements.loadMoreButton.addEventListener('click', async () => {
     currentPage++;
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
+    showLoadMoreButton();
   } catch (error) {
-    hideLoadMoreButton();
     console.error('Error fetching more images:', error);
 
   }
@@ -50,7 +49,6 @@ elements.loadMoreButton.addEventListener('click', async () => {
 
 function displayImages(images) {
   if (images.length === 0) {
-    hideLoadMoreButton();
     hideImageGallery();
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
@@ -127,3 +125,6 @@ function hideImageGallery () {
   elements.gallery.style.display = 'none';
 }
 
+function showImageGallery () {
+  elements.gallery.style.display = 'flex';
+}
