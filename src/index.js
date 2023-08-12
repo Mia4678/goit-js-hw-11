@@ -19,8 +19,7 @@ elements.form.addEventListener('submit', async e => {
 
   if (!currentSearchQuery) {
    hideImageGallery();
-   hideLoadMoreButton();
-  return;
+  return
   } else {
     showLoadMoreButton();
     showImageGallery();
