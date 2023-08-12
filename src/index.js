@@ -28,7 +28,10 @@ elements.form.addEventListener('submit', async e => {
 
   try {
     const images = await searchImages(currentSearchQuery, currentPage);
+    const imageGallery = new ImageGallery(images, elements.gallery);
+    imageGallery.clear();
     displayImages(images);
+    showImageGallery();
     lightbox.refresh();
   } catch (error) {
     console.error('Error fetching images:', error);
@@ -39,6 +42,7 @@ elements.loadMoreButton.addEventListener('click', async () => {
   try {
     currentPage++;
     const images = await searchImages(currentSearchQuery, currentPage);
+    showImageGallery();
     displayImages(images);
     lightbox.refresh();
   } catch (error) {
@@ -69,7 +73,7 @@ class ImageGallery {
     this.images = images;
     this.galleryElement = galleryElement;
   }
-
+   
   render() {
     const imageCards = this.images
       .map(image => this.createImageCard(image))
@@ -83,6 +87,8 @@ class ImageGallery {
       .join('');
     this.galleryElement.innerHTML += imageCards; // Append new images to the existing gallery content
   }
+  clear() {
+    this.galleryElement.innerHTML = '';}
 
   createImageCard(image) {
     const { webformatURL, tags, likes, views, comments, downloads } = image;
