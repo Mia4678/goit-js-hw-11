@@ -25,20 +25,19 @@ elements.form.addEventListener('submit', async e => {
   try {
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
-    lightbox.refresh();
     showLoadMoreButton();
+    lightbox.refresh();
   } catch (error) {
     console.error('Error fetching images:', error);
   }
 });
-
 
 elements.loadMoreButton.addEventListener('click', async () => {
   try {
     currentPage++;
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
-    showLoadMoreButton();
+    showImageGallery();
   } catch (error) {
     console.error('Error fetching more images:', error);
 
@@ -55,7 +54,6 @@ function displayImages(images) {
     );
     return;
   }
-
   const imageGallery = new ImageGallery(images, elements.gallery);
   imageGallery.append();
 
