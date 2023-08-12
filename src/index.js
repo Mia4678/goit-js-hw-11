@@ -18,14 +18,17 @@ elements.form.addEventListener('submit', async e => {
   currentSearchQuery = e.target.searchQuery.value.trim();
 
   if (!currentSearchQuery) {
-    hideImageGallery();
-    return;
+   hideImageGallery();
+   hideLoadMoreButton();
+  return;
+  } else {
+    showLoadMoreButton();
+    showImageGallery();
   }
 
   try {
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
-    showLoadMoreButton();
     lightbox.refresh();
   } catch (error) {
     console.error('Error fetching images:', error);
@@ -37,7 +40,7 @@ elements.loadMoreButton.addEventListener('click', async () => {
     currentPage++;
     const images = await searchImages(currentSearchQuery, currentPage);
     displayImages(images);
-    showImageGallery();
+    lightbox.refresh();
   } catch (error) {
     console.error('Error fetching more images:', error);
 
@@ -45,15 +48,15 @@ elements.loadMoreButton.addEventListener('click', async () => {
 });
 
 
-
 function displayImages(images) {
   if (images.length === 0) {
     hideImageGallery();
+    hideLoadMoreButton();
     Notiflix.Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
-  }
+  } 
   const imageGallery = new ImageGallery(images, elements.gallery);
   imageGallery.append();
 
@@ -126,3 +129,4 @@ function hideImageGallery () {
 function showImageGallery () {
   elements.gallery.style.display = 'flex';
 }
+
